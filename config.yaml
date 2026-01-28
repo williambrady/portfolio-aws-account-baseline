@@ -1,0 +1,84 @@
+# portfolio-aws-account-baseline configuration
+
+# Resource Naming Prefix
+# This prefix is used for all resources created by this tool (S3 buckets, IAM roles, etc.)
+resource_prefix: "ccoe"
+
+# Tags applied to all resources created by this baseline
+tags:
+  owner: "william.brady"
+  contact: "ccoe"
+  repository: "https://github.com/williambrady/portfolio-aws-account-baseline"
+
+# VPC Block Public Access Configuration
+# Controls whether VPCs can have internet gateways and public IP addresses
+# Options:
+#   - ingress: Blocks inbound internet access, allows outbound (recommended)
+#   - bidirectional: Blocks both inbound and outbound internet access (most restrictive)
+#   - disabled: No VPC block public access restrictions (least secure)
+vpc_block_public_access:
+  mode: "disabled"
+
+# S3 Lifecycle Management Settings
+
+s3_lifecycle:
+  # Terraform state buckets (no expiration - state files should be kept indefinitely)
+  tfstate:
+    transition_to_ia_days: 90
+
+  # S3 access logging buckets
+  access_logging:
+    transition_to_ia_days: 30
+    expiration_days: 365  # 1 year
+    noncurrent_version_expiration_days: 30
+
+  # CloudTrail and Config logging buckets
+  config_logging:
+    transition_to_ia_days: 90
+    expiration_days: 2555  # 7 years
+    noncurrent_version_expiration_days: 90
+
+  # CloudWatch Logs
+  cloudwatch_logs:
+    retention_days: 365  # 1 year
+
+  # General purpose buckets (default)
+  general:
+    transition_to_ia_days: 90
+    expiration_days: 2555  # 7 years
+    noncurrent_version_expiration_days: 90
+
+# Security Hub Configuration
+# Aligns with org-baseline for consistency
+security_hub:
+  # List of control IDs to disable organization-wide
+  # Examples: S3.15, CloudFormation.4, IAM.6
+  # Leave empty to enable all controls
+  disabled_controls: []
+
+# AWS Account Alternate Contacts Configuration
+# These contacts will be applied to the management account and all member accounts
+alternate_contacts:
+  # Enable alternate contacts
+  enable_alternate_contacts: true
+
+  # Billing Contact - for billing and cost-related communications
+  billing_contact:
+    name: "Finance Department"
+    title: "FinOps Manager"
+    email: "will+finance@crofton.cloud"
+    phone: "+14434542892"
+
+  # Operations Contact - for operational and technical issues
+  operations_contact:
+    name: "Operations Department"
+    title: "Operations Manager"
+    email: "will+operations@crofton.cloud"
+    phone: "+14434542892"
+
+  # Security Contact - for security incidents and notifications
+  security_contact:
+    name: "William Brady"
+    title: "Cloud Security"
+    email: "will+security@crofton.cloud"
+    phone: "+14434542892"

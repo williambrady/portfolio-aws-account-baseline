@@ -1,0 +1,15 @@
+# Snyk IaC policy file
+# https://docs.snyk.io/scan-using-snyk/snyk-iac/iac+-code-to-cloud-capabilities/iac-exclusions
+version: v1.25.0
+ignore:
+  SNYK-CC-TF-45:
+    - 'terraform/modules/s3-access-logging/main.tf > *':
+        reason: "Access logging bucket cannot log to itself - would cause circular logging"
+        expires: 2099-12-31T00:00:00.000Z
+  SNYK-CC-TF-127:
+    - 'terraform/modules/s3-access-logging/main.tf > *':
+        reason: "MFA delete requires root account credentials which are not used in automation"
+        expires: 2099-12-31T00:00:00.000Z
+    - 'terraform/modules/s3-logging/main.tf > *':
+        reason: "MFA delete requires root account credentials which are not used in automation"
+        expires: 2099-12-31T00:00:00.000Z
