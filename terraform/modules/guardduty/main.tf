@@ -14,13 +14,13 @@ terraform {
 # Data Sources
 # -----------------------------------------------------------------------------
 
-data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
 # -----------------------------------------------------------------------------
 # GuardDuty Detector
 # -----------------------------------------------------------------------------
 
+# checkov:skip=CKV2_AWS_3:GuardDuty is enabled for standalone account baseline, not org-level
 resource "aws_guardduty_detector" "main" {
   enable                       = true
   finding_publishing_frequency = "FIFTEEN_MINUTES"

@@ -47,12 +47,6 @@ variable "config_exists" {
   default     = {}
 }
 
-variable "config_is_control_tower_managed" {
-  description = "Whether Config is managed by Control Tower"
-  type        = bool
-  default     = false
-}
-
 variable "config_is_org_managed" {
   description = "Whether Config is managed by an organization (delivery to external account bucket). When true, Config module is skipped."
   type        = bool
@@ -62,12 +56,6 @@ variable "config_is_org_managed" {
 # Discovery state - CloudTrail
 variable "cloudtrail_multi_region_exists" {
   description = "Whether a multi-region CloudTrail already exists"
-  type        = bool
-  default     = false
-}
-
-variable "cloudtrail_is_control_tower_managed" {
-  description = "Whether CloudTrail is managed by Control Tower"
   type        = bool
   default     = false
 }
@@ -129,19 +117,6 @@ variable "logging_bucket_exists" {
   default     = false
 }
 
-# Discovery state - Inspector
-variable "inspector_enabled" {
-  description = "Map of region to boolean indicating if Inspector is enabled"
-  type        = map(bool)
-  default     = {}
-}
-
-variable "inspector_resource_types" {
-  description = "Map of region to list of enabled resource types"
-  type        = map(list(string))
-  default     = {}
-}
-
 variable "inspector_is_org_managed" {
   description = "Whether Inspector is managed by an organization delegated administrator. When true, Inspector module is skipped."
   type        = bool
@@ -149,12 +124,6 @@ variable "inspector_is_org_managed" {
 }
 
 # Discovery state - GuardDuty
-variable "guardduty_enabled" {
-  description = "Map of region to boolean indicating if GuardDuty is enabled"
-  type        = map(bool)
-  default     = {}
-}
-
 variable "guardduty_is_org_managed" {
   description = "Whether GuardDuty is managed by an organization delegated administrator. When true, GuardDuty module is skipped."
   type        = bool

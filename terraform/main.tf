@@ -103,14 +103,6 @@ locals {
   logging_bucket_name = local.need_logging_bucket ? (
     var.logging_bucket_exists ? "${var.resource_prefix}-security-logging-${var.account_id}-us-east-1" : module.s3_logging[0].bucket_name
   ) : ""
-
-  # All target regions
-  all_regions = [
-    "us-east-1", "us-east-2", "us-west-1", "us-west-2",
-    "eu-west-1", "eu-west-2", "eu-west-3", "eu-central-1", "eu-north-1",
-    "ap-southeast-1", "ap-southeast-2", "ap-northeast-1", "ap-northeast-2", "ap-northeast-3", "ap-south-1",
-    "ca-central-1", "sa-east-1"
-  ]
 }
 
 # =============================================================================
@@ -840,103 +832,86 @@ module "ssm_sa_east_1" {
 module "ec2_defaults_us_east_1" {
   source    = "./modules/ec2-defaults"
   providers = { aws = aws.us-east-1 }
-  region    = "us-east-1"
 }
 
 module "ec2_defaults_us_east_2" {
   source    = "./modules/ec2-defaults"
   providers = { aws = aws.us-east-2 }
-  region    = "us-east-2"
 }
 
 module "ec2_defaults_us_west_1" {
   source    = "./modules/ec2-defaults"
   providers = { aws = aws.us-west-1 }
-  region    = "us-west-1"
 }
 
 module "ec2_defaults_us_west_2" {
   source    = "./modules/ec2-defaults"
   providers = { aws = aws.us-west-2 }
-  region    = "us-west-2"
 }
 
 module "ec2_defaults_eu_west_1" {
   source    = "./modules/ec2-defaults"
   providers = { aws = aws.eu-west-1 }
-  region    = "eu-west-1"
 }
 
 module "ec2_defaults_eu_west_2" {
   source    = "./modules/ec2-defaults"
   providers = { aws = aws.eu-west-2 }
-  region    = "eu-west-2"
 }
 
 module "ec2_defaults_eu_west_3" {
   source    = "./modules/ec2-defaults"
   providers = { aws = aws.eu-west-3 }
-  region    = "eu-west-3"
 }
 
 module "ec2_defaults_eu_central_1" {
   source    = "./modules/ec2-defaults"
   providers = { aws = aws.eu-central-1 }
-  region    = "eu-central-1"
 }
 
 module "ec2_defaults_eu_north_1" {
   source    = "./modules/ec2-defaults"
   providers = { aws = aws.eu-north-1 }
-  region    = "eu-north-1"
 }
 
 module "ec2_defaults_ap_southeast_1" {
   source    = "./modules/ec2-defaults"
   providers = { aws = aws.ap-southeast-1 }
-  region    = "ap-southeast-1"
 }
 
 module "ec2_defaults_ap_southeast_2" {
   source    = "./modules/ec2-defaults"
   providers = { aws = aws.ap-southeast-2 }
-  region    = "ap-southeast-2"
 }
 
 module "ec2_defaults_ap_northeast_1" {
   source    = "./modules/ec2-defaults"
   providers = { aws = aws.ap-northeast-1 }
-  region    = "ap-northeast-1"
 }
 
 module "ec2_defaults_ap_northeast_2" {
   source    = "./modules/ec2-defaults"
   providers = { aws = aws.ap-northeast-2 }
-  region    = "ap-northeast-2"
 }
 
 module "ec2_defaults_ap_northeast_3" {
   source    = "./modules/ec2-defaults"
   providers = { aws = aws.ap-northeast-3 }
-  region    = "ap-northeast-3"
 }
 
 module "ec2_defaults_ap_south_1" {
   source    = "./modules/ec2-defaults"
   providers = { aws = aws.ap-south-1 }
-  region    = "ap-south-1"
 }
 
 module "ec2_defaults_ca_central_1" {
   source    = "./modules/ec2-defaults"
   providers = { aws = aws.ca-central-1 }
-  region    = "ca-central-1"
 }
 
 module "ec2_defaults_sa_east_1" {
   source    = "./modules/ec2-defaults"
   providers = { aws = aws.sa-east-1 }
-  region    = "sa-east-1"
 }
 
 # =============================================================================
@@ -946,119 +921,102 @@ module "ec2_defaults_sa_east_1" {
 module "vpc_defaults_us_east_1" {
   source                       = "./modules/vpc-defaults"
   providers                    = { aws = aws.us-east-1 }
-  region                       = "us-east-1"
   vpc_block_public_access_mode = var.vpc_block_public_access_mode
 }
 
 module "vpc_defaults_us_east_2" {
   source                       = "./modules/vpc-defaults"
   providers                    = { aws = aws.us-east-2 }
-  region                       = "us-east-2"
   vpc_block_public_access_mode = var.vpc_block_public_access_mode
 }
 
 module "vpc_defaults_us_west_1" {
   source                       = "./modules/vpc-defaults"
   providers                    = { aws = aws.us-west-1 }
-  region                       = "us-west-1"
   vpc_block_public_access_mode = var.vpc_block_public_access_mode
 }
 
 module "vpc_defaults_us_west_2" {
   source                       = "./modules/vpc-defaults"
   providers                    = { aws = aws.us-west-2 }
-  region                       = "us-west-2"
   vpc_block_public_access_mode = var.vpc_block_public_access_mode
 }
 
 module "vpc_defaults_eu_west_1" {
   source                       = "./modules/vpc-defaults"
   providers                    = { aws = aws.eu-west-1 }
-  region                       = "eu-west-1"
   vpc_block_public_access_mode = var.vpc_block_public_access_mode
 }
 
 module "vpc_defaults_eu_west_2" {
   source                       = "./modules/vpc-defaults"
   providers                    = { aws = aws.eu-west-2 }
-  region                       = "eu-west-2"
   vpc_block_public_access_mode = var.vpc_block_public_access_mode
 }
 
 module "vpc_defaults_eu_west_3" {
   source                       = "./modules/vpc-defaults"
   providers                    = { aws = aws.eu-west-3 }
-  region                       = "eu-west-3"
   vpc_block_public_access_mode = var.vpc_block_public_access_mode
 }
 
 module "vpc_defaults_eu_central_1" {
   source                       = "./modules/vpc-defaults"
   providers                    = { aws = aws.eu-central-1 }
-  region                       = "eu-central-1"
   vpc_block_public_access_mode = var.vpc_block_public_access_mode
 }
 
 module "vpc_defaults_eu_north_1" {
   source                       = "./modules/vpc-defaults"
   providers                    = { aws = aws.eu-north-1 }
-  region                       = "eu-north-1"
   vpc_block_public_access_mode = var.vpc_block_public_access_mode
 }
 
 module "vpc_defaults_ap_southeast_1" {
   source                       = "./modules/vpc-defaults"
   providers                    = { aws = aws.ap-southeast-1 }
-  region                       = "ap-southeast-1"
   vpc_block_public_access_mode = var.vpc_block_public_access_mode
 }
 
 module "vpc_defaults_ap_southeast_2" {
   source                       = "./modules/vpc-defaults"
   providers                    = { aws = aws.ap-southeast-2 }
-  region                       = "ap-southeast-2"
   vpc_block_public_access_mode = var.vpc_block_public_access_mode
 }
 
 module "vpc_defaults_ap_northeast_1" {
   source                       = "./modules/vpc-defaults"
   providers                    = { aws = aws.ap-northeast-1 }
-  region                       = "ap-northeast-1"
   vpc_block_public_access_mode = var.vpc_block_public_access_mode
 }
 
 module "vpc_defaults_ap_northeast_2" {
   source                       = "./modules/vpc-defaults"
   providers                    = { aws = aws.ap-northeast-2 }
-  region                       = "ap-northeast-2"
   vpc_block_public_access_mode = var.vpc_block_public_access_mode
 }
 
 module "vpc_defaults_ap_northeast_3" {
   source                       = "./modules/vpc-defaults"
   providers                    = { aws = aws.ap-northeast-3 }
-  region                       = "ap-northeast-3"
   vpc_block_public_access_mode = var.vpc_block_public_access_mode
 }
 
 module "vpc_defaults_ap_south_1" {
   source                       = "./modules/vpc-defaults"
   providers                    = { aws = aws.ap-south-1 }
-  region                       = "ap-south-1"
   vpc_block_public_access_mode = var.vpc_block_public_access_mode
 }
 
 module "vpc_defaults_ca_central_1" {
   source                       = "./modules/vpc-defaults"
   providers                    = { aws = aws.ca-central-1 }
-  region                       = "ca-central-1"
   vpc_block_public_access_mode = var.vpc_block_public_access_mode
 }
 
 module "vpc_defaults_sa_east_1" {
   source                       = "./modules/vpc-defaults"
   providers                    = { aws = aws.sa-east-1 }
-  region                       = "sa-east-1"
   vpc_block_public_access_mode = var.vpc_block_public_access_mode
 }
 
