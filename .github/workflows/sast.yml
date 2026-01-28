@@ -19,11 +19,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run portfolio-code-scanner
-        uses: williambrady/portfolio-code-scanner@main
+        uses: williambrady/portfolio-code-scanner@v1
         with:
           scan-path: '.'
           output-format: 'sarif'
-          fail-on-severity: 'high'
+          fail-on-severity: 'HIGH'
         continue-on-error: true
 
       - name: Upload SARIF results
@@ -32,19 +32,6 @@ jobs:
         with:
           sarif_file: results.sarif
         continue-on-error: true
-
-  tfsec:
-    name: Terraform Security
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Run tfsec
-        uses: aquasecurity/tfsec-action@v1.0.3
-        with:
-          working_directory: terraform/
-          soft_fail: true
 
   trivy:
     name: Container Scan
