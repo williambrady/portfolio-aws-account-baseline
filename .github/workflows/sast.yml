@@ -1,0 +1,72 @@
+name: SAST
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run portfolio-code-scanner
+        id: security-scan
+        uses: williambrady/portfolio-code-scanner@v1
+        with:
+          scan-path: '.'
+          output-formats: 'json,sarif'
+          fail-on-severity: 'HIGH'
+
+      - name: Upload SARIF results
+        uses: github/codeql-action/upload-sarif@v4
+        if: always() && steps.security-scan.outputs.sarif-path != ''
+        with:
+          sarif_file: ${{ steps.security-scan.outputs.sarif-path }}
+        continue-on-error: true
+
+      - name: Post Scan Summary
+        if: always()
+        run: |
+          echo "### Security Scan Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Severity | Count |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Critical | ${{ steps.security-scan.outputs.critical-count }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| High | ${{ steps.security-scan.outputs.high-count }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Medium | ${{ steps.security-scan.outputs.medium-count }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Low | ${{ steps.security-scan.outputs.low-count }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Total** | **${{ steps.security-scan.outputs.findings-count }}** |" >> $GITHUB_STEP_SUMMARY
+
+  trivy:
+    name: Container Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build container image
+        run: docker build -t portfolio-aws-account-baseline:scan .
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'portfolio-aws-account-baseline:scan'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Upload Trivy scan results
+        uses: github/codeql-action/upload-sarif@v4
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+        continue-on-error: true
